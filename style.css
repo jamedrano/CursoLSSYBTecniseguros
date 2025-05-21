@@ -1,0 +1,60 @@
+/* /training-presentation/style.css */
+
+/* Styles for the Slide Presentation Navigation Controls Container */
+.presentation-nav-container {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000; /* High z-index to be on top */
+    background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white */
+    padding: 10px 15px;
+    border-radius: 25px; /* More rounded */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex; 
+    align-items: center; 
+}
+
+/* Styles for Navigation Buttons within the presentation slides */
+.presentation-nav-container button {
+    background-color: #005792; /* Tecniseguros blue */
+    color: white;
+    border: none;
+    padding: 8px 18px; 
+    margin: 0 8px; 
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px; 
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.presentation-nav-container button:hover:not(:disabled) {
+    background-color: #003d66; /* Darker blue */
+    transform: translateY(-1px); 
+}
+
+.presentation-nav-container button:disabled {
+    background-color: #cccccc;
+    color: #888888;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Styles for the Slide Indicator Text within presentation slides */
+.presentation-nav-container #slideIndicator { /* Targeting by ID is fine here as it's unique per slide load */
+    margin: 0 10px; 
+    font-size: 13px;
+    color: #333333;
+    white-space: nowrap; 
+}
+
+/* If you want body styles for your SLIDES (not index.html) to be global, add them here too. */
+/* For example, if all slides should have a specific font: */
+/*
+body.slide-body { // Add class="slide-body" to the <body> tag of your slides
+    font-family: 'Open Sans', sans-serif; // Assuming you link Open Sans in slides too
+    margin: 0;
+    background-color: #f0f0f0; // Example slide background
+}
+*/
