@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad: Mapeando un Proceso de Tecniseguros</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../../style.css"> <!-- ADDED LINK TO GLOBAL CSS -->
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        .header-bar {
+            background: linear-gradient(90deg, #005792 0%, #00A6A6 100%);
+            height: 12px;
+        }
+        .footer-bar {
+            background: linear-gradient(90deg, #005792 0%, #00A6A6 100%);
+            height: 8px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        .company-logo {
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            font-size: 16px;
+            color: #666;
+            font-weight: 500;
+            z-index: 500;
+        }
+        .timeline-point {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .activity-step {
+            transition: all 0.3s ease;
+        }
+        .activity-step:hover {
+            transform: translateX(5px);
+        }
+        .sipoc-cell { /* Assuming this class might be used if SIPOC template is part of this activity visually */
+            transition: all 0.3s ease;
+        }
+        .sipoc-cell:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .swimlane-template {
+            border: 2px dashed #00A6A6; /* Tecniseguros Teal */
+            transition: all 0.3s ease;
+            background-color: #f0f9ff; /* Tailwind blue-50 */
+        }
+        .swimlane-template:hover {
+            border-color: #005792; /* Tecniseguros Dark Blue */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            background-color: #e6f7ff; /* Tailwind blue-100 like */
+        }
+        .department-lane {
+            position: relative; /* For positioning the label within */
+             display: flex; /* To align label and content area */
+        }
+        .department-label {
+            /* position: absolute; -- Removed as it's part of flex now */
+            /* left: 0; top: 0; bottom: 0; -- Removed */
+            width: 120px; /* Increased width for horizontal text */
+            flex-shrink: 0; /* Prevent label from shrinking */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: 500;
+            padding: 0.5rem 0.25rem; /* Adjusted padding */
+            /* background, border, text color are handled by Tailwind classes on the element */
+        }
+        .placeholder-box {
+            border: 2px dashed #cbd5e1; /* Tailwind gray-300 */
+            min-height: 30px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1; /* Allow placeholder to take remaining space */
+        }
+        /* .process-step class was defined but not used directly for the placeholder boxes, kept if needed */
+        .bg-pattern {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background-color: rgba(0, 87, 146, 0.02); /* Softer */
+            background-image: radial-gradient(circle, rgba(0, 166, 166, 0.07) 1px, transparent 1px); /* Softer */
+            background-size: 15px 15px; /* Smaller */
+            z-index: 0; /* Behind content */
+        }
+        .example-process {
+            position: absolute;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb; /* Tailwind gray-200 */
+            z-index: 1; /* Above bg-pattern if overlapping */
+        }
+        .example-1 {
+            top: 360px;
+            left: 850px;
+            background-color: #dbeafe; /* Tailwind blue-200 */
+            transform: rotate(-5deg);
+            border-color: #93c5fd; /* Tailwind blue-300 */
+        }
+        .example-2 {
+            top: 320px;
+            left: 970px;
+            background-color: #d1fae5; /* Tailwind green-200 */
+            transform: rotate(3deg);
+            border-color: #6ee7b7; /* Tailwind green-300 */
+        }
+        .example-3 {
+            top: 390px;
+            left: 960px;
+            background-color: #fef3c7; /* Tailwind yellow-200 */
+            transform: rotate(-2deg);
+            border-color: #fcd34d; /* Tailwind yellow-400 */
+        }
+        .facilitator-tip {
+            border-left: 4px solid #60A5FA; /* Tailwind blue-400 */
+            background-color: #EFF6FF; /* Tailwind blue-50 */
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="header-bar"></div>
+        <div class="bg-pattern"></div> <!-- Moved pattern to be under header -->
+        
+        <!-- Main Content -->
+        <div class="p-10 z-10 relative"> <!-- z-10 for content to be above bg-pattern -->
+            <!-- Title Section -->
+            <div class="mb-5">
+                <h1 class="text-3xl font-bold text-blue-700">Actividad: ¡Vamos a Mapearlo!</h1>
+                <div class="w-20 h-1 bg-green-500 mt-2"></div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6"> <!-- Adjusted gap from 8 to 6 -->
+                <!-- Left Side: Instructions -->
+                <div>
+                    <div class="bg-white rounded-lg shadow-md p-5 border-l-4 border-blue-500">
+                        <h3 class="text-xl font-medium text-blue-700 mb-4">Instrucciones:</h3>
+                        
+                        <div class="space-y-4">
+                            <div class="flex activity-step">
+                                <div class="timeline-point bg-blue-600 mr-4 flex-shrink-0">1</div>
+                                <div>
+                                    <p class="text-gray-700">En sus pequeños grupos.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex activity-step">
+                                <div class="timeline-point bg-blue-600 mr-4 flex-shrink-0">2</div>
+                                <div>
+                                    <p class="text-gray-700">Elijan un proceso de Tecniseguros relativamente simple y específico (o un segmento de uno más grande) con el que la mayoría de los miembros del grupo estén familiarizados.</p>
+                                    <div class="mt-1 bg-blue-50 p-2 rounded text-sm">
+                                        <span class="font-medium text-blue-700">Ejemplos:</span>
+                                        <ul class="list-disc ml-5 text-gray-600 text-sm">
+                                            <li>Envío de solicitud para endoso de póliza</li>
+                                            <li>Procesamiento de un ticket de soporte interno de TI</li>
+                                            <li>Registro inicial de un nuevo lead de ventas</li>
+                                            <li>Cliente realizando un pago simple en línea</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex activity-step">
+                                <div class="timeline-point bg-blue-600 mr-4 flex-shrink-0">3</div>
+                                <div>
+                                    <p class="text-gray-700">Definan los puntos de <span class="font-medium">Inicio y Fin</span> para el segmento que están mapeando.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex activity-step">
+                                <div class="timeline-point bg-blue-600 mr-4 flex-shrink-0">4</div>
+                                <div>
+                                    <p class="text-gray-700">Usando un formato de Diagrama de Flujo con Carriles (Swimlanes):</p>
+                                    <ul class="list-disc ml-5 mt-1 text-gray-600 text-sm space-y-1">
+                                        <li>Identifiquen los roles/departamentos clave involucrados (estos son sus carriles).</li>
+                                        <li>Mapeen los 5-10 pasos principales del proceso de inicio a fin, colocando cada paso en el carril correcto.</li>
+                                        <li>Usen símbolos básicos (Rectángulos para pasos, Rombos para decisiones, Flechas para flujo).</li>
+                                        <li>Noten cualquier Demora obvia o transferencias entre carriles.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="flex activity-step">
+                                <div class="timeline-point bg-green-600 mr-4 flex-shrink-0">5</div>
+                                <div>
+                                    <p class="text-gray-700">Utilicen su herramienta designada (diagrams.net, Miro, rotafolio).</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Timing Information -->
+                    <div class="flex justify-center items-center mt-4 bg-gray-100 p-3 rounded-lg"> <!-- Changed justify-around to justify-center for tighter look if needed -->
+                        <div class="flex items-center">
+                            <i class="fas fa-clock text-blue-600 text-xl mr-2"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Tiempo para la actividad</p>
+                                <p class="font-bold text-gray-700">25-30 minutos</p>
+                            </div>
+                        </div>
+                        <!-- Removed separator if only one item in this row
+                        <div class="text-gray-400 mx-4">|</div> 
+                        <div class="flex items-center">
+                            <i class="fas fa-share-alt text-green-600 text-xl mr-2"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Compartir un ejemplo</p>
+                                <p class="font-bold text-gray-700">5-10 minutos</p>
+                            </div>
+                        </div>
+                        -->
+                    </div>
+                </div>
+                
+                <!-- Right Side: Blank Swimlane Template & Visualization -->
+                <div class="space-y-4">
+                    <!-- Swimlane Template -->
+                    <div class="swimlane-template p-4 rounded-lg">
+                        <h3 class="text-lg font-medium text-blue-700 mb-3 flex items-center">
+                            <i class="fas fa-columns text-blue-600 mr-2"></i>
+                            Plantilla de Diagrama con Carriles
+                        </h3>
+                        
+                        <div class="bg-white rounded-lg border border-blue-200 overflow-hidden">
+                            <div class="bg-blue-100 py-2 px-4 border-b border-blue-200 flex justify-between">
+                                <p class="text-sm font-medium text-blue-800">Proceso: <span class="italic text-blue-600">_____________________</span></p>
+                                <p class="text-sm font-medium text-blue-800">Fecha: <span class="italic text-blue-600">__________</span></p>
+                            </div>
+                            
+                            <!-- Swimlanes -->
+                            <div class="department-lane h-16 border-b border-blue-200"> <!-- Increased height -->
+                                <div class="department-label bg-blue-50 border-r border-blue-200 text-sm text-blue-800">
+                                    Departamento 1
+                                </div>
+                                <div class="ml-[120px] flex items-center h-full px-2"> <!-- Adjusted margin to match label width -->
+                                    <div class="placeholder-box w-full">
+                                        <p class="text-gray-400 text-xs">Pasos del proceso para Departamento 1</p> <!-- Smaller text -->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="department-lane h-16 border-b border-blue-200">
+                                <div class="department-label bg-blue-50 border-r border-blue-200 text-sm text-blue-800">
+                                    Departamento 2
+                                </div>
+                                <div class="ml-[120px] flex items-center h-full px-2">
+                                    <div class="placeholder-box w-full">
+                                        <p class="text-gray-400 text-xs">Pasos del proceso para Departamento 2</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="department-lane h-16 border-b border-blue-200">
+                                <div class="department-label bg-blue-50 border-r border-blue-200 text-sm text-blue-800">
+                                    Departamento 3
+                                </div>
+                                <div class="ml-[120px] flex items-center h-full px-2">
+                                    <div class="placeholder-box w-full">
+                                        <p class="text-gray-400 text-xs">Pasos del proceso para Departamento 3</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="department-lane h-16"> <!-- Removed border-b for last lane -->
+                                <div class="department-label bg-blue-50 border-r border-blue-200 text-sm text-blue-800">
+                                    Departamento 4
+                                </div>
+                                <div class="ml-[120px] flex items-center h-full px-2">
+                                    <div class="placeholder-box w-full">
+                                        <p class="text-gray-400 text-xs">Pasos del proceso para Departamento 4</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Process Examples (decorative sticky notes) -->
+                    <div class="relative min-h-[160px] mt-2"> <!-- Added mt-2 and container for stickies -->
+                        <div class="example-process example-1">Revisión de solicitud</div>
+                        <div class="example-process example-2">Ingreso de datos</div>
+                        <div class="example-process example-3">¿Aprobado?</div>
+                    </div>
+
+                    <!-- Facilitator Tip -->
+                    <div class="facilitator-tip p-4 rounded"> <!-- Removed mt-6 as parent has space-y-4 -->
+                        <h4 class="text-blue-700 font-medium flex items-center">
+                            <i class="fas fa-chalkboard-teacher text-blue-500 mr-2"></i>
+                            Para el Facilitador:
+                        </h4>
+                        <ul class="text-sm text-gray-600 mt-2 ml-6 list-disc">
+                            <li>Asegúrese de que los grupos mantengan los pasos del proceso a alto nivel.</li>
+                            <li>Recuérdeles que se enfoquen en los elementos clave S-I-P-O-C.</li>
+                            <li>Solo necesitan 5-7 pasos principales del proceso, no todos los detalles.</li>
+                            <li>Resalte la importancia de identificar correctamente a proveedores y clientes internos.</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Team Working Visual - Removed as it was on facilitator tip slide, might be redundant here or add if desired -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- footer -->
+        <div class="company-logo">Tecniseguros | Lean Six Sigma Yellow Belt</div>
+        <div class="footer-bar"></div>
+    </div>
+
+    <!-- UPDATED NAVIGATION CONTROLS -->
+    <div class="presentation-nav-container">
+        <button id="prevSlideButton" onclick="goToPrevSlide()"> &laquo; Anterior </button>
+        <span id="slideIndicator">Diapositiva ? de ?</span>
+        <button id="nextSlideButton" onclick="goToNextSlide()"> Siguiente &raquo; </button>
+    </div>
+
+    <script src="../../script.js"></script>
+</body>
+</html>
