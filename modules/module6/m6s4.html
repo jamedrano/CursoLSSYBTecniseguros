@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad: Planificación de Recolección de Datos - Tecniseguros</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        .header-bar {
+            background: linear-gradient(90deg, #005792 0%, #00A6A6 100%);
+            height: 12px;
+        }
+        .footer-bar {
+            background: linear-gradient(90deg, #005792 0%, #00A6A6 100%);
+            height: 8px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        .company-logo {
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            font-size: 16px;
+            color: #666;
+            font-weight: 500;
+        }
+        .timeline-point {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .activity-step {
+            transition: all 0.3s ease;
+        }
+        .activity-step:hover {
+            transform: translateX(5px);
+        }
+        .data-template {
+            border: 2px dashed #00A6A6;
+            transition: all 0.3s ease;
+            background-color: #f0f9ff;
+        }
+        .data-template:hover {
+            border-color: #005792;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            background-color: #e6f7ff;
+        }
+        .table-header {
+            background: linear-gradient(90deg, #005792 0%, #00A6A6 100%);
+            color: white;
+            font-weight: 500;
+        }
+        .bg-pattern {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 300px;
+            height: 300px;
+            background-color: rgba(0, 87, 146, 0.03);
+            background-image: radial-gradient(circle, rgba(0, 166, 166, 0.1) 2px, transparent 2px);
+            background-size: 20px 20px;
+            z-index: 0;
+        }
+        .example-metric {
+            position: absolute;
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+            z-index: 1;
+        }
+        .example-1 {
+            top: 360px;
+            left: 850px;
+            background-color: #dbeafe;
+            transform: rotate(-5deg);
+            border-color: #93c5fd;
+        }
+        .example-2 {
+            top: 320px;
+            left: 970px;
+            background-color: #d1fae5;
+            transform: rotate(3deg);
+            border-color: #6ee7b7;
+        }
+        .example-3 {
+            top: 390px;
+            left: 960px;
+            background-color: #fef3c7;
+            transform: rotate(-2deg);
+            border-color: #fcd34d;
+        }
+        .facilitator-tip {
+            border-left: 4px solid #60A5FA;
+            background-color: #EFF6FF;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="header-bar"></div>
+        
+        <!-- Main Content -->
+        <div class="p-10 z-10 relative">
+            <!-- Title Section -->
+            <div class="mb-5">
+                <h1 class="text-3xl font-bold text-blue-700">Actividad: Planificación de Nuestra Recolección de Datos</h1>
+                <div class="w-20 h-1 bg-green-500 mt-2"></div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Left Side: Instructions -->
+                <div>
+                    <div class="bg-white rounded-lg shadow-md p-5 border-l-4 border-blue-500">
+                        <h3 class="text-xl font-medium text-blue-700 mb-4">Instrucciones:</h3>
+                        
+                        <div class="space-y-4">
+                            <div class="flex activity-step">
+                                <div class="timeline-point bg-blue-600 mr-4 flex-shrink-0">1</div>
+                                <div>
+                                    <p class="text-gray-700">En sus pequeños grupos.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex activity-step">
+                                <div class="timeline-point bg-blue-600 mr-4 flex-shrink-0">2</div>
+                                <div>
+                                    <p class="text-gray-700">Consulten el proceso simple que mapearon en el Módulo 5 (o uno de los problemas de la actividad de Mini-Acta en el Módulo 4).</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex activity-step">
+                                <div class="timeline-point bg-blue-600 mr-4 flex-shrink-0">3</div>
+                                <div>
+                                    <p class="text-gray-700">Para ese proceso/problema, identifiquen una métrica clave que les gustaría medir.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex activity-step">
+                                <div class="timeline-point bg-blue-600 mr-4 flex-shrink-0">4</div>
+                                <div>
+                                    <p class="text-gray-700">Desarrollen:</p>
+                                    <ul class="list-disc ml-8 mt-1 text-gray-600 text-sm space-y-1">
+                                        <li>Una <span class="font-medium text-blue-700">Definición Operacional</span> para esa métrica.</li>
+                                        <li>Identifiquen el <span class="font-medium text-blue-700">Tipo de Dato</span>.</li>
+                                        <li>Sugieran una <span class="font-medium text-blue-700">Fuente de Datos</span> y <span class="font-medium text-blue-700">Quién</span> podría recolectarlo.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="flex activity-step">
+                                <div class="timeline-point bg-green-600 mr-4 flex-shrink-0">5</div>
+                                <div>
+                                    <p class="text-gray-700">Utilicen una plantilla simple o simplemente enumeren los elementos. Prepárense para compartir.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Timing Information -->
+                    <div class="flex justify-around items-center mt-6 bg-gray-100 p-3 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-clock text-blue-600 text-xl mr-2"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Discusión en grupos</p>
+                                <p class="font-bold text-gray-700">15 minutos</p>
+                            </div>
+                        </div>
+                        <div class="text-gray-400">|</div>
+                        <div class="flex items-center">
+                            <i class="fas fa-share-alt text-green-600 text-xl mr-2"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Compartir</p>
+                                <p class="font-bold text-gray-700">5-10 minutos</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Side: Data Collection Plan Template -->
+                <div>
+                    <!-- Data Plan Template -->
+                    <div class="data-template p-4 rounded-lg">
+                        <h3 class="text-lg font-medium text-blue-700 mb-3 flex items-center">
+                            <i class="fas fa-clipboard-list text-blue-600 mr-2"></i>
+                            Plantilla de Plan de Datos
+                        </h3>
+                        
+                        <div class="bg-white rounded-lg border border-blue-200 overflow-hidden">
+                            <div class="table-header py-2 px-4 text-center">
+                                <p class="text-white font-medium">Plan de Recolección de Datos Simplificado</p>
+                            </div>
+                            
+                            <div class="p-4">
+                                <div class="mb-4">
+                                    <p class="text-sm font-medium text-blue-700">Métrica a medir:</p>
+                                    <div class="mt-1 border border-gray-300 rounded-md h-8 bg-gray-50"></div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <p class="text-sm font-medium text-green-700">Definición Operacional:</p>
+                                    <div class="mt-1 border border-gray-300 rounded-md h-16 bg-gray-50"></div>
+                                    <p class="text-xs text-gray-500 italic mt-1">Descripción clara y sin ambigüedades de cómo se medirá la métrica.</p>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <p class="text-sm font-medium text-blue-700">Tipo de Dato:</p>
+                                        <div class="mt-1 border border-gray-300 rounded-md h-8 bg-gray-50"></div>
+                                        <p class="text-xs text-gray-500 italic mt-1">Cuantitativo/Cualitativo, Continuo/Discreto</p>
+                                    </div>
+                                    
+                                    <div>
+                                        <p class="text-sm font-medium text-green-700">Fuente de Datos:</p>
+                                        <div class="mt-1 border border-gray-300 rounded-md h-8 bg-gray-50"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4">
+                                    <p class="text-sm font-medium text-blue-700">¿Quién recolectará?</p>
+                                    <div class="mt-1 border border-gray-300 rounded-md h-8 bg-gray-50"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Facilitator Tips -->
+                    <div class="facilitator-tip p-4 rounded mt-6">
+                        <h4 class="text-blue-700 font-medium flex items-center">
+                            <i class="fas fa-chalkboard-teacher text-blue-500 mr-2"></i>
+                            Para el Facilitador:
+                        </h4>
+                        <p class="text-sm text-gray-600 mt-2">
+                            Enfoque a los grupos en crear definiciones operacionales muy claras. Pregunte: <span class="italic">"Si alguien nuevo se uniera a su equipo mañana, ¿sabría exactamente cómo medir esto basado en su definición?"</span>
+                        </p>
+                        
+                        <div class="mt-3 bg-blue-100 p-2 rounded text-sm">
+                            <p class="font-medium text-blue-700">Ejemplos de buenas definiciones:</p>
+                            <ul class="text-gray-600 mt-1 ml-5 list-disc">
+                                <li>"Tiempo de resolución de reclamaciones: Desde el momento en que la reclamación se registra en el sistema hasta que se notifica la decisión al cliente, en días laborables."</li>
+                                <li>"Errores de datos: Cualquier dato faltante, incompleto o incorrecto en los campos obligatorios del formulario de solicitud."</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Examples -->
+                    <div class="example-metric example-1">
+                        Tiempo de procesamiento
+                    </div>
+                    <div class="example-metric example-2">
+                        Tasa de error
+                    </div>
+                    <div class="example-metric example-3">
+                        Satisfacción del cliente
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Background Pattern -->
+        <div class="bg-pattern"></div>
+        
+        <!-- Footer -->
+        <div class="company-logo">Tecniseguros | Lean Six Sigma Yellow Belt</div>
+        <div class="footer-bar"></div>
+    </div>
+<!-- 1. Navigation Buttons HTML Block -->
+<div style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
+    <button id="prevSlideButton" onclick="goToPrevSlide()"> « Previous </button>
+    <span id="slideIndicator" style="margin: 0 15px;">Slide ? of ?</span>
+    <button id="nextSlideButton" onclick="goToNextSlide()"> Next » </button>
+</div>
+
+<!-- 2. Link to Global script.js -->
+<script src="../../script.js"></script>
+
+</body>
+</html>
