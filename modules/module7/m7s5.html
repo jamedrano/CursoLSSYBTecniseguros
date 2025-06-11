@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagrama de Causa y Efecto (Fishbone/Ishikawa)</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9; /* For testing, slide background is dark */
+            display: flex; /* Added for consistent test environment */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0a3d62 0%, #1e5a8c 100%);
+            color: white;
+            display: flex; /* Ensures footer with mt-auto works */
+            flex-direction: column;
+        }
+        .fishbone-container {
+            position: relative;
+            height: 380px; /* Fixed height of the diagram area */
+            width: 100%;
+            /* background-color: rgba(0,255,0,0.05); /* Debug */
+        }
+        .fishbone-spine {
+            position: absolute;
+            height: 10px;
+            background-color: #ffd700;
+            top: 50%; /* Vertically center spine */
+            left: 5%;
+            transform: translateY(-50%);
+            width: 80%; /* Spine length */
+            border-radius: 5px;
+        }
+        .fishbone-head {
+            position: absolute;
+            right: -4%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 180px; /* Width of the problem box */
+            height: 120px; /* Height of the problem box */
+            background-color: rgba(255, 215, 0, 0.15);
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            z-index: 10;
+        }
+        .fishbone-bone {
+            position: absolute;
+            height: 120px; /* Length of the bone */
+            width: 6px;   /* Thickness of the bone */
+            background-color: rgba(255, 215, 0, 0.7);
+        }
+        .fishbone-bone.top-bone {
+            transform-origin: bottom center;
+            top: calc(50% - 120px);
+        }
+        .fishbone-bone.bottom-bone {
+            transform-origin: top center;
+            top: 50%;
+        }
+
+        .category-box {
+            position: absolute;
+            width: 140px;
+            padding: 8px;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            text-align: center;
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+            z-index: 5;
+        }
+        .category-box:hover {
+            transform: scale(1.05);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .subcause {
+            position: absolute;
+            width: 130px;
+            background-color: rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            padding: 6px 8px;
+            text-align: left;
+            font-size: 0.8rem;
+            border-left: 3px solid;
+            z-index: 4;
+        }
+        .category-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        /* Positioning for Category 1 (Top-Left) */
+        .bone-1 { left: 15%; transform: rotate(45deg); }
+        .catbox-1 { left: 18%; top: -15px; border-color: #4CAF50; }
+        .subcause-1 { left: 5%; top: 125px; border-color: #4CAF50; } /* Adjusted: further left */
+
+        /* Positioning for Category 2 (Top-Middle) */
+        .bone-2 { left: 35%; transform: rotate(45deg); }
+        .catbox-2 { left: 38%; top: -15px; border-color: #2196F3; }
+        .subcause-2 { left: 25%; top: 125px; border-color: #2196F3; } /* Adjusted: further left */
+
+        /* Positioning for Category 3 (Top-Right) */
+        .bone-3 { left: 55%; transform: rotate(45deg); }
+        .catbox-3 { left: 58%; top: -15px; border-color: #9C27B0; }
+        .subcause-3 { left: 45%; top: 125px; border-color: #9C27B0; } /* Adjusted: further left */
+
+        /* Positioning for Category 4 (Bottom-Left) */
+        .bone-4 { left: 15%; transform: rotate(-45deg); }
+        .catbox-4 { left: 18%; bottom: -15px; border-color: #FF9800; }
+        .subcause-4 { left: 5%; bottom: 125px; border-color: #FF9800; } /* Adjusted: further left */
+
+        /* Positioning for Category 5 (Bottom-Middle) */
+        .bone-5 { left: 35%; transform: rotate(-45deg); }
+        .catbox-5 { left: 38%; bottom: -15px; border-color: #E91E63; }
+        .subcause-5 { left: 25%; bottom: 125px; border-color: #E91E63; } /* Adjusted: further left */
+
+        /* Positioning for Category 6 (Bottom-Right) */
+        .bone-6 { left: 55%; transform: rotate(-45deg); }
+        .catbox-6 { left: 58%; bottom: -15px; border-color: #00BCD4; }
+        .subcause-6 { left: 45%; bottom: 125px; border-color: #00BCD4; } /* Adjusted: further left */
+
+        .benefit-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .benefit-card:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+        .benefit-icon {
+            background-color: #ffd700;
+            color: #0a3d62;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .example-header {
+            background-color: rgba(255, 215, 0, 0.2);
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .example-item {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 6px;
+            background-color: rgba(255, 255, 255, 0.08);
+            border-left: 3px solid;
+        }
+    </style>
+</head>
+<body class="flex justify-center items-center min-h-screen">
+    <div class="slide flex flex-col">
+        <!-- Header con logo -->
+        <div class="h-16 bg-white bg-opacity-10 flex items-center px-8 justify-between flex-shrink-0">
+            <div class="text-xl font-bold">TECNISEGUROS</div>
+            <div>Lean Six Sigma Yellow Belt</div>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="flex-grow flex flex-col px-16 py-8 overflow-y-auto">
+            <!-- Título -->
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold">Herramienta de Análisis de Causa Raíz 2: <span class="text-yellow-300">Diagrama de Causa y Efecto (Fishbone)</span></h1>
+            </div>
+
+            <div class="grid grid-cols-12 gap-6 flex-grow">
+                <!-- Columna izquierda: Qué es y beneficios -->
+                <div class="col-span-4">
+                    <div class="bg-white bg-opacity-10 rounded-lg p-4 h-full">
+                        <h2 class="text-xl font-bold mb-3 text-yellow-300">
+                            <i class="fas fa-info-circle mr-2"></i>¿Qué es?
+                        </h2>
+                        <p class="mb-4">Una herramienta visual utilizada para hacer lluvia de ideas y categorizar causas potenciales de un problema específico (el "Efecto").</p>
+
+                        <h2 class="text-xl font-bold mb-3 text-yellow-300">
+                            <i class="fas fa-star mr-2"></i>Beneficios
+                        </h2>
+                        <div class="space-y-3">
+                            <div class="benefit-card">
+                                <div class="benefit-icon"><i class="fas fa-sitemap"></i></div>
+                                <div>Lluvia de ideas estructurada</div>
+                            </div>
+                            <div class="benefit-card">
+                                <div class="benefit-icon"><i class="fas fa-search"></i></div>
+                                <div>Asegura considerar todas las áreas potenciales</div>
+                            </div>
+                            <div class="benefit-card">
+                                <div class="benefit-icon"><i class="fas fa-chart-pie"></i></div>
+                                <div>Facilita comunicación visual de causas</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna central y derecha: Diagrama Fishbone -->
+                <div class="col-span-8 flex flex-col">
+                    <!-- Diagrama de espina de pescado -->
+                    <div class="fishbone-container mb-4">
+                        <div class="fishbone-spine"></div>
+
+                        <div class="fishbone-head">
+                            <div>
+                                <i class="fas fa-exclamation-triangle text-yellow-300 text-xl mb-1"></i>
+                                <div>PROBLEMA<br/>(EFECTO)</div>
+                            </div>
+                        </div>
+
+                        <!-- Top Bones -->
+                        <div class="fishbone-bone top-bone bone-1"></div>
+                        <div class="fishbone-bone top-bone bone-2"></div>
+                        <div class="fishbone-bone top-bone bone-3"></div>
+                        <!-- Bottom Bones -->
+                        <div class="fishbone-bone bottom-bone bone-4"></div>
+                        <div class="fishbone-bone bottom-bone bone-5"></div>
+                        <div class="fishbone-bone bottom-bone bone-6"></div>
+
+                        <!-- Category Boxes and Subcauses -->
+                        <!-- Personas -->
+                        <div class="category-box catbox-1">
+                            <i class="fas fa-users category-icon text-green-400"></i>
+                            <div class="font-bold">PERSONAS</div>
+                            <div class="text-xs">(Habilidades, capacitación, comunicación)</div>
+                        </div>
+                        <div class="subcause subcause-1">
+                            <i class="fas fa-graduation-cap mr-1 text-green-400"></i> Capacitación insuficiente
+                        </div>
+
+                        <!-- Procesos -->
+                        <div class="category-box catbox-2">
+                            <i class="fas fa-cogs category-icon text-blue-400"></i>
+                            <div class="font-bold">PROCESOS</div>
+                            <div class="text-xs">(Procedimientos, flujos, políticas)</div>
+                        </div>
+                        <div class="subcause subcause-2">
+                            <i class="fas fa-clipboard-list mr-1 text-blue-400"></i> Falta de estándares
+                        </div>
+
+                        <!-- Sistemas -->
+                        <div class="category-box catbox-3">
+                            <i class="fas fa-laptop-code category-icon text-purple-400"></i>
+                            <div class="font-bold">SISTEMAS</div>
+                            <div class="text-xs">(Software, hardware, equipos)</div>
+                        </div>
+                         <div class="subcause subcause-3">
+                            <i class="fas fa-bug mr-1 text-purple-400"></i> Interfaz confusa
+                        </div>
+
+                        <!-- Materiales -->
+                        <div class="category-box catbox-4">
+                            <i class="fas fa-file-alt category-icon text-yellow-400"></i>
+                            <div class="font-bold">MATERIALES</div>
+                            <div class="text-xs">(Información, formularios, datos)</div>
+                        </div>
+                        <div class="subcause subcause-4">
+                            <i class="fas fa-exclamation-circle mr-1 text-yellow-400"></i> Datos incorrectos
+                        </div>
+
+                        <!-- Entorno -->
+                        <div class="category-box catbox-5">
+                            <i class="fas fa-building category-icon text-pink-400"></i>
+                            <div class="font-bold">ENTORNO</div>
+                            <div class="text-xs">(Espacio físico, cultura, factores externos)</div>
+                        </div>
+                        <div class="subcause subcause-5">
+                            <i class="fas fa-clock mr-1 text-pink-400"></i> Presión de tiempo
+                        </div>
+
+                        <!-- Medición -->
+                        <div class="category-box catbox-6">
+                            <i class="fas fa-ruler-combined category-icon text-teal-400"></i>
+                            <div class="font-bold">MEDICIÓN</div>
+                            <div class="text-xs">(Recopilación de datos, métricas)</div>
+                        </div>
+                        <div class="subcause subcause-6">
+                            <i class="fas fa-tachometer-alt mr-1 text-teal-400"></i> Métricas poco claras
+                        </div>
+                    </div>
+
+                    <!-- Ejemplo práctico -->
+                    <div class="bg-white bg-opacity-10 rounded-lg p-4 mt-auto">
+                        <div class="example-header">
+                            <i class="fas fa-lightbulb text-yellow-300 text-xl mr-3"></i>
+                            <h3 class="text-lg font-bold">Ejemplo Práctico: Alto índice de errores en la introducción de datos de pólizas</h3>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="example-item" style="border-color: #4CAF50;">
+                                <div class="font-bold text-green-400"><i class="fas fa-users mr-1"></i> Personas:</div>
+                                <ul class="list-disc pl-5 text-sm mt-1">
+                                    <li>Formación insuficiente</li>
+                                    <li>Alta carga de trabajo</li>
+                                </ul>
+                            </div>
+                            <div class="example-item" style="border-color: #2196F3;">
+                                <div class="font-bold text-blue-400"><i class="fas fa-cogs mr-1"></i> Procesos:</div>
+                                <ul class="list-disc pl-5 text-sm mt-1">
+                                    <li>Sin procedimiento estándar</li>
+                                    <li>Campos confusos en formularios</li>
+                                </ul>
+                            </div>
+                            <div class="example-item" style="border-color: #9C27B0;">
+                                <div class="font-bold text-purple-400"><i class="fas fa-laptop-code mr-1"></i> Sistemas:</div>
+                                <ul class="list-disc pl-5 text-sm mt-1">
+                                    <li>Respuesta lenta del sistema</li>
+                                    <li>Interfaz confusa</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="h-12 bg-white bg-opacity-10 flex items-center px-8 justify-between mt-auto flex-shrink-0">
+            <div>
+                <div class="flex items-center">
+                    <i class="fas fa-fish text-yellow-300 text-xl mr-2"></i>
+                    <span>También conocido como: Diagrama de Ishikawa o Diagrama de Espina de Pescado</span>
+                </div>
+            </div>
+            <div>
+                <i class="fas fa-lightbulb mr-2 text-yellow-300"></i> Tecniseguros | Lean Six Sigma
+            </div>
+        </div>
+    </div>
+<!-- 1. Navigation Buttons HTML Block -->
+<div style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
+    <button id="prevSlideButton" onclick="goToPrevSlide()"> « Previous </button>
+    <span id="slideIndicator" style="margin: 0 15px;">Slide ? of ?</span>
+    <button id="nextSlideButton" onclick="goToNextSlide()"> Next » </button>
+</div>
+
+<!-- 2. Link to Global script.js -->
+<script src="../../script.js"></script>
+
+</body>
+</html>

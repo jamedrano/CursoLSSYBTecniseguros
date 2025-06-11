@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fase de Análisis: ¿Por qué ocurre el Problema?</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0a3d62 0%, #1e5a8c 100%);
+            color: white;
+        }
+        .dmaic-cycle {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .dmaic-step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 10px;
+            font-weight: bold;
+            font-size: 18px;
+            border: 2px solid white;
+            position: relative;
+        }
+        .dmaic-step.active {
+            background-color: #e74c3c;
+            transform: scale(1.2);
+            box-shadow: 0 0 20px rgba(231, 76, 60, 0.7);
+        }
+        .dmaic-label {
+            position: absolute;
+            bottom: -25px;
+            font-size: 12px;
+            font-weight: 500;
+            width: 100%;
+            text-align: center;
+        }
+        .iceberg-container {
+            position: relative;
+            width: 400px;
+            height: 320px;
+            margin-left: 30px;
+        }
+        .water {
+            position: absolute;
+            top: 120px;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(to bottom, #1a93d0, #0d5c87);
+            border-radius: 5px;
+        }
+        .iceberg-top {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 100px;
+            background-color: #e0f2fe;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%);
+            z-index: 2;
+        }
+        .iceberg-bottom {
+            position: absolute;
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 180px;
+            background-color: #cae8fb;
+            clip-path: polygon(15% 0%, 85% 0%, 100% 60%, 70% 100%, 30% 100%, 0% 60%);
+            z-index: 1;
+        }
+        .symptom-label {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: bold;
+            color: #0a3d62;
+            text-align: center;
+        }
+        .cause-label {
+            position: absolute;
+            top: 180px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: bold;
+            color: #0a3d62;
+            text-align: center;
+            z-index: 3;
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .highlight {
+            color: #ffd700;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide flex flex-col">
+        <!-- Header con logo -->
+        <div class="h-16 bg-white bg-opacity-10 flex items-center px-8 justify-between">
+            <div class="text-xl font-bold">TECNISEGUROS</div>
+            <div>Lean Six Sigma Yellow Belt</div>
+        </div>
+        
+        <!-- Contenido principal -->
+        <div class="flex-grow flex flex-col px-16 py-8">
+            <!-- Título -->
+            <div class="mb-6">
+                <h1 class="text-4xl font-bold mb-2">Fase de Análisis: <span class="text-yellow-300">¿Por qué ocurre el Problema?</span></h1>
+            </div>
+            
+            <div class="flex flex-row">
+                <!-- Columna izquierda: Contenido -->
+                <div class="w-3/5 pr-6">
+                    <!-- Propósito -->
+                    <div class="card">
+                        <h2 class="text-2xl font-bold mb-3 text-yellow-300">
+                            <i class="fas fa-bullseye mr-2"></i>Propósito de la Fase de Análisis
+                        </h2>
+                        <ul class="list-none space-y-2">
+                            <li><i class="fas fa-check-circle mr-2 text-green-400"></i>Utilizar los datos de la fase de Medición para entender el proceso y las fuentes de variación</li>
+                            <li><i class="fas fa-check-circle mr-2 text-green-400"></i>Determinar la(s) causa(s) raíz del problema definido</li>
+                            <li><i class="fas fa-check-circle mr-2 text-green-400"></i>Evitar saltar a soluciones antes de entender realmente la causa</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Preguntas Clave -->
+                    <div class="card mt-4">
+                        <h2 class="text-2xl font-bold mb-3 text-yellow-300">
+                            <i class="fas fa-question-circle mr-2"></i>Preguntas Clave
+                        </h2>
+                        <ul class="list-none space-y-2">
+                            <li><i class="fas fa-arrow-right mr-2 text-blue-300"></i>¿Qué nos dicen los datos sobre el proceso y el problema?</li>
+                            <li><i class="fas fa-arrow-right mr-2 text-blue-300"></i>¿Cuáles son las causas potenciales del problema?</li>
+                            <li><i class="fas fa-arrow-right mr-2 text-blue-300"></i>¿Cuáles de estas causas son las más significativas?</li>
+                            <li><i class="fas fa-arrow-right mr-2 text-blue-300"></i>¿Cómo podemos verificar estas causas raíz?</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Analogía -->
+                    <div class="bg-yellow-900 bg-opacity-20 p-4 rounded-lg mt-4">
+                        <p class="text-lg">
+                            <i class="fas fa-lightbulb text-yellow-300 mr-2"></i>
+                            <span class="font-bold">Analogía:</span> Tratar una fiebre (síntoma) con una aspirina 
+                            versus encontrar y tratar la infección subyacente (causa raíz).
+                        </p>
+                    </div>
+                    
+                    <!-- Ciclo DMAIC -->
+                    <div class="dmaic-cycle mt-4">
+                        <div class="dmaic-step">
+                            D
+                            <span class="dmaic-label">DEFINIR</span>
+                        </div>
+                        <div class="dmaic-step">
+                            M
+                            <span class="dmaic-label">MEDIR</span>
+                        </div>
+                        <div class="dmaic-step active">
+                            A
+                            <span class="dmaic-label">ANALIZAR</span>
+                        </div>
+                        <div class="dmaic-step">
+                            I
+                            <span class="dmaic-label">MEJORAR</span>
+                        </div>
+                        <div class="dmaic-step">
+                            C
+                            <span class="dmaic-label">CONTROLAR</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Columna derecha: Visualización del iceberg -->
+                <div class="w-2/5 flex items-center justify-center">
+                    <div class="iceberg-container">
+                        <div class="iceberg-top">
+                            <div class="symptom-label">
+                                SÍNTOMAS<br>
+                                <span class="text-xs">(Visible)</span>
+                            </div>
+                        </div>
+                        <div class="water"></div>
+                        <div class="iceberg-bottom">
+                            <div class="cause-label">
+                                CAUSAS RAÍZ<br>
+                                <span class="text-xs">(Oculto)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="h-12 bg-white bg-opacity-10 flex items-center px-8 justify-between mt-auto">
+            <div>
+                <i class="fas fa-search mr-2"></i> Identificar causas, no solo síntomas
+            </div>
+            <div>
+                <i class="fas fa-lightbulb mr-2 text-yellow-300"></i> Tecniseguros | Lean Six Sigma
+            </div>
+        </div>
+    </div>
+<!-- 1. Navigation Buttons HTML Block -->
+<div style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
+    <button id="prevSlideButton" onclick="goToPrevSlide()"> « Previous </button>
+    <span id="slideIndicator" style="margin: 0 15px;">Slide ? of ?</span>
+    <button id="nextSlideButton" onclick="goToNextSlide()"> Next » </button>
+</div>
+
+<!-- 2. Link to Global script.js -->
+<script src="../../script.js"></script>
+
+</body>
+</html>

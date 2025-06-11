@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad: Práctica de los 5 Por Qués</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9; /* For testing, slide background is dark */
+            display: flex; /* Added for consistent test environment */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0a3d62 0%, #1e5a8c 100%);
+            color: white;
+            display: flex; /* Ensures footer with mt-auto works */
+            flex-direction: column;
+        }
+        .activity-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 16px;
+            /* height: 100%; -- Removed, let content define height or use flex-grow if needed */
+            border-left: 4px solid #ffd700;
+        }
+        .problem-card {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+            border-left: 3px solid #e74c3c;
+            transition: all 0.3s ease;
+        }
+        .problem-card:hover {
+            transform: translateX(5px);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .why-template {
+            background-color: rgba(255, 255, 255, 0.07);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* This creates space for the arrows */
+            margin-bottom: 1.5rem; /* MODIFIED: Added Tailwind mb-6 for spacing */
+        }
+        .why-box {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 12px;
+            position: relative; /* For the arrow and pseudo-element */
+        }
+        .why-box:not(:last-child)::before { /* Renamed from why-arrow to avoid confusion, used :before */
+            content: ""; /* Using FontAwesome arrow within the HTML is better */
+            /* This was for a CSS arrow, but FontAwesome is used in HTML */
+        }
+        .why-box .why-arrow-svg { /* Style for the SVG arrow container */
+            position: absolute;
+            left: 50%;
+            bottom: -15px; /* Sits in the gap */
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            z-index: 2; /* Above next box if any overlap (shouldn't with gap) */
+            height: 15px; /* Height of the arrow icon */
+        }
+
+        .why-box:after { /* The "Por qué?" label */
+            content: "¿Por qué?";
+            position: absolute;
+            left: -65px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #ffd700;
+            color: #0a3d62;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+        /* Hide the label for the first "PROBLEMA" box and last "CAUSA RAÍZ" box */
+        .why-box:first-child:after,
+        .why-box:last-child:after {
+            content: none;
+        }
+         /* Hide the arrow for the last box */
+        .why-box:last-child .why-arrow-svg {
+            display: none;
+        }
+
+        .time-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: rgba(255, 215, 0, 0.2);
+            border-radius: 20px;
+            padding: 8px 15px;
+            margin-top: 1rem; /* Added space above time indicator */
+        }
+        .instruction-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .instruction-icon {
+            background-color: rgba(255, 215, 0, 0.7);
+            color: #0a3d62;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+            flex-shrink: 0; /* Prevent icon from shrinking */
+        }
+        .team-icon {
+            font-size: 1.5rem;
+            margin-right: 8px;
+            color: #ffd700;
+        }
+    </style>
+</head>
+<body class="flex justify-center items-center min-h-screen">
+    <div class="slide flex flex-col">
+        <!-- Header con logo -->
+        <div class="h-16 bg-white bg-opacity-10 flex items-center px-8 justify-between flex-shrink-0">
+            <div class="text-xl font-bold">TECNISEGUROS</div>
+            <div>Lean Six Sigma Yellow Belt</div>
+        </div>
+        
+        <!-- Contenido principal -->
+        <div class="flex-grow flex flex-col px-16 py-8 overflow-y-auto"> <!-- Added overflow-y-auto -->
+            <!-- Título -->
+            <div class="mb-4">
+                <h1 class="text-4xl font-bold mb-2">Actividad: <span class="text-yellow-300">Práctica de los 5 Por Qués</span></h1>
+            </div>
+            
+            <div class="flex flex-row flex-grow"> <!-- Added flex-grow to make columns take available space -->
+                <!-- Columna izquierda: Instrucciones -->
+                <div class="w-1/2 pr-6 flex flex-col"> <!-- Made left column a flex-col -->
+                    <div class="activity-card mb-4">
+                        <h2 class="text-2xl font-bold mb-3 text-yellow-300">
+                            <i class="fas fa-tasks mr-2"></i>Instrucciones
+                        </h2>
+                        <div class="space-y-3">
+                            <div class="instruction-step">
+                                <div class="instruction-icon">1</div>
+                                <div>En sus grupos pequeños.</div>
+                            </div>
+                            <div class="instruction-step">
+                                <div class="instruction-icon">2</div>
+                                <div>Elijan uno de los problemas proporcionados o uno identificado previamente por el grupo.</div>
+                            </div>
+                            <div class="instruction-step">
+                                <div class="instruction-icon">3</div>
+                                <div>Apliquen la técnica de los 5 Por Qués para llegar a las posibles causas raíz.</div>
+                            </div>
+                            <div class="instruction-step">
+                                <div class="instruction-icon">4</div>
+                                <div>Documenten sus "Por qués" y respuestas.</div>
+                            </div>
+                            <div class="instruction-step">
+                                <div class="instruction-icon">5</div>
+                                <div>Prepárense para compartir su cadena de Por qués con el grupo.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="activity-card mb-4 flex-grow"> <!-- Added flex-grow to example problems to push time down if needed -->
+                        <h2 class="text-2xl font-bold mb-3 text-yellow-300">
+                            <i class="fas fa-exclamation-circle mr-2"></i>Problemas de Ejemplo
+                        </h2>
+                        <div class="problem-card">
+                            <div class="font-bold"><i class="fas fa-calendar-times mr-2"></i>Problema 1</div>
+                            <div>"Los avisos de renovación de clientes frecuentemente se envían tarde."</div>
+                        </div>
+                        <div class="problem-card">
+                            <div class="font-bold"><i class="fas fa-keyboard mr-2"></i>Problema 2</div>
+                            <div>"Hay una alta tasa de errores de entrada de datos en nuevas solicitudes de negocio."</div>
+                        </div>
+                        <div class="problem-card">
+                            <div class="font-bold"><i class="fas fa-clock mr-2"></i>Problema 3</div>
+                            <div>"Las reuniones internas a menudo comienzan tarde."</div>
+                        </div>
+                    </div>
+
+                    <div class="time-indicator mt-auto"> <!-- mt-auto to push to bottom of left column -->
+                        <i class="fas fa-hourglass-half text-yellow-300 text-2xl"></i>
+                        <span class="font-bold">Tiempo:</span> 15 minutos para discusión + 5-10 minutos para compartir
+                    </div>
+                </div>
+                
+                <!-- Columna derecha: Plantilla 5 Por Qués y Gráficos -->
+                <div class="w-1/2 pl-6">
+                    <div class="activity-card h-full flex flex-col"> <!-- Removed justify-between to let content flow naturally -->
+                        <div>
+                            <h2 class="text-2xl font-bold mb-3 text-yellow-300">
+                                <i class="fas fa-file-alt mr-2"></i>Plantilla 5 Por Qués
+                            </h2>
+                            
+                            <div class="why-template"> <!-- mb-6 added via CSS -->
+                                <div class="why-box text-center">
+                                    <span class="font-bold">PROBLEMA</span>
+                                    <p class="text-sm mt-1">(Enunciado claro del problema)</p>
+                                    <div class="why-arrow-svg"><i class="fas fa-arrow-down"></i></div>
+                                </div>
+                                
+                                <div class="why-box">
+                                    <span class="font-bold">Por qué #1</span>
+                                    <p class="text-sm mt-1">Primera respuesta...</p>
+                                    <div class="why-arrow-svg"><i class="fas fa-arrow-down"></i></div>
+                                </div>
+                                
+                                <div class="why-box">
+                                    <span class="font-bold">Por qué #2</span>
+                                    <p class="text-sm mt-1">Segunda respuesta...</p>
+                                    <div class="why-arrow-svg"><i class="fas fa-arrow-down"></i></div>
+                                </div>
+                                
+                                <div class="why-box">
+                                    <span class="font-bold">Por qué #3</span>
+                                    <p class="text-sm mt-1">Tercera respuesta...</p>
+                                    <div class="why-arrow-svg"><i class="fas fa-arrow-down"></i></div>
+                                </div>
+                                
+                                <div class="why-box">
+                                    <span class="font-bold">Por qué #4</span>
+                                    <p class="text-sm mt-1">Cuarta respuesta...</p>
+                                    <div class="why-arrow-svg"><i class="fas fa-arrow-down"></i></div>
+                                </div>
+                                
+                                <div class="why-box bg-yellow-800 bg-opacity-30"> <!-- Last box, no arrow needed -->
+                                    <span class="font-bold text-yellow-300">CAUSA RAÍZ</span>
+                                    <p class="text-sm mt-1">La causa fundamental que debe abordarse</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-auto bg-blue-900 bg-opacity-30 p-3 rounded-lg"> <!-- mt-auto to push to bottom -->
+                            <h3 class="text-lg font-bold text-yellow-300 flex items-center">
+                                <i class="fas fa-user-tie mr-2"></i>Papel del Facilitador:
+                            </h3>
+                            <div class="mt-2 flex flex-col space-y-2">
+                                <div class="flex items-start">
+                                    <i class="fas fa-check-circle text-green-300 mr-2 mt-1"></i>
+                                    <div>Alentar a los grupos a cuestionar suposiciones</div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-check-circle text-green-300 mr-2 mt-1"></i>
+                                    <div>Asegurar que cada "Por qué" sigue lógicamente de la respuesta anterior</div>
+                                </div>
+                                <div class="flex items-start">
+                                    <i class="fas fa-check-circle text-green-300 mr-2 mt-1"></i>
+                                    <div>Ayudar a identificar causas a nivel de proceso o sistema en lugar de culpar a personas</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="h-12 bg-white bg-opacity-10 flex items-center px-8 justify-between mt-auto flex-shrink-0">
+            <div>
+                <div class="flex items-center">
+                    <i class="fas fa-users-cog team-icon"></i>
+                    <span>Trabajo en equipo para identificar causa raíz</span>
+                </div>
+            </div>
+            <div>
+                <i class="fas fa-lightbulb mr-2 text-yellow-300"></i> Tecniseguros | Lean Six Sigma
+            </div>
+        </div>
+    </div>
+<!-- 1. Navigation Buttons HTML Block -->
+<div style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
+    <button id="prevSlideButton" onclick="goToPrevSlide()"> « Previous </button>
+    <span id="slideIndicator" style="margin: 0 15px;">Slide ? of ?</span>
+    <button id="nextSlideButton" onclick="goToNextSlide()"> Next » </button>
+</div>
+
+<!-- 2. Link to Global script.js -->
+<script src="../../script.js"></script>
+
+</body>
+</html>

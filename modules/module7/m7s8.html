@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad: Interpretando un Gráfico de Pareto</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0a3d62 0%, #1e5a8c 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        .highlight-card {
+            border-left: 4px solid #ffd700;
+        }
+        .highlight-text {
+            color: #ffd700;
+        }
+        .chart-container {
+            position: relative;
+            height: 320px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 10px;
+        }
+        .activity-box {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 16px;
+            border-left: 3px solid #48bb78;
+            transition: all 0.2s ease;
+        }
+        .activity-box:hover {
+            background-color: rgba(255, 255, 255, 0.12);
+        }
+        .activity-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        .step-number {
+            background-color: #ffd700;
+            color: #0a3d62;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .option-divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .option-divider:before,
+        .option-divider:after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.3);
+        }
+        .option-divider-text {
+            padding: 0 10px;
+            font-weight: bold;
+            color: #ffd700;
+        }
+        .time-indicator {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 215, 0, 0.2);
+            border-radius: 16px;
+            padding: 4px 12px;
+            font-size: 14px;
+        }
+        .discussion-point {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+        .discussion-point:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+        .discussion-icon {
+            color: #ffd700;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <!-- Header con logo -->
+        <div class="h-16 bg-white bg-opacity-10 flex items-center px-8 justify-between">
+            <div class="text-xl font-bold">TECNISEGUROS</div>
+            <div>Lean Six Sigma Yellow Belt</div>
+        </div>
+        
+        <!-- Contenido principal -->
+        <div class="flex-grow flex flex-col px-16 py-8">
+            <!-- Título -->
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold">Actividad: <span class="text-yellow-300">¿Qué nos dice el Gráfico de Pareto?</span></h1>
+            </div>
+            
+            <div class="grid grid-cols-12 gap-6">
+                <!-- Columna izquierda: Instrucciones de la actividad -->
+                <div class="col-span-5">
+                    <div class="card highlight-card h-full flex flex-col">
+                        <h2 class="text-xl font-bold mb-4">
+                            <i class="fas fa-users-gear mr-2 text-yellow-300"></i>
+                            Instrucciones para Grupos
+                        </h2>
+                        
+                        <!-- Opción 1 -->
+                        <div class="activity-box mb-4">
+                            <h3 class="text-lg font-bold text-green-400 mb-3">
+                                <i class="fas fa-magnifying-glass-chart mr-2"></i>
+                                Opción 1: Interpretar el gráfico
+                            </h3>
+                            
+                            <div class="activity-step">
+                                <div class="step-number">1</div>
+                                <div>
+                                    <p>Observe el gráfico de Pareto de "Razones para Retrasos en Reclamos de Seguros" en la columna derecha.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-step">
+                                <div class="step-number">2</div>
+                                <div>
+                                    <p>En su grupo discutan:</p>
+                                    <div class="pl-4 mt-2 space-y-2">
+                                        <div class="discussion-point">
+                                            <i class="fas fa-question-circle discussion-icon"></i>
+                                            <span>¿Cuáles son los "pocos vitales" según el gráfico?</span>
+                                        </div>
+                                        <div class="discussion-point">
+                                            <i class="fas fa-lightbulb discussion-icon"></i>
+                                            <span>Con recursos limitados, ¿dónde enfocaría sus esfuerzos de mejora?</span>
+                                        </div>
+                                        <div class="discussion-point">
+                                            <i class="fas fa-bullseye discussion-icon"></i>
+                                            <span>¿Qué porcentaje del problema total resolvería si aborda las 2 causas principales?</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-step">
+                                <div class="step-number">3</div>
+                                <div>
+                                    <p>Prepare una breve explicación de sus conclusiones para compartir con el grupo.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-2 time-indicator">
+                                <i class="fas fa-clock mr-2"></i>
+                                <span>Tiempo: 10-15 minutos + 5 para compartir</span>
+                            </div>
+                        </div>
+                        
+                        <div class="option-divider">
+                            <span class="option-divider-text">O</span>
+                        </div>
+                        
+                        <!-- Opción 2 -->
+                        <div class="activity-box">
+                            <h3 class="text-lg font-bold text-green-400 mb-3">
+                                <i class="fas fa-chart-column mr-2"></i>
+                                Opción 2: Crear su propio gráfico
+                            </h3>
+                            
+                            <div class="mb-3">
+                                <span class="font-bold">Conjunto de datos:</span>
+                                <div class="bg-white bg-opacity-5 mt-2 rounded-md p-3">
+                                    <table class="w-full text-sm">
+                                        <tr class="border-b border-white border-opacity-20">
+                                            <th class="text-left pb-1">Tipo de Error</th>
+                                            <th class="text-right pb-1">Frecuencia</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Información del cliente incompleta</td>
+                                            <td class="text-right">28</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Selección incorrecta de productos</td>
+                                            <td class="text-right">35</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Errores en cálculo de prima</td>
+                                            <td class="text-right">12</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Documentación faltante</td>
+                                            <td class="text-right">18</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Firma de cliente ausente</td>
+                                            <td class="text-right">7</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-step">
+                                <div class="step-number">1</div>
+                                <div>
+                                    <p>Ordene los datos de mayor a menor frecuencia.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-step">
+                                <div class="step-number">2</div>
+                                <div>
+                                    <p>Usando Excel/Google Sheets o a mano, cree un bosquejo de gráfico de Pareto.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-step">
+                                <div class="step-number">3</div>
+                                <div>
+                                    <p>Identifique los "pocos vitales" y explique qué problemas abordaría primero.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-2 time-indicator">
+                                <i class="fas fa-clock mr-2"></i>
+                                <span>Tiempo: 15 minutos + 5 para compartir</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Columna derecha: Gráfico de ejemplo y preguntas -->
+                <div class="col-span-7">
+                    <div class="card h-full flex flex-col">
+                        <h2 class="text-xl font-bold mb-4">
+                            <i class="fas fa-chart-pie mr-2 text-yellow-300"></i>
+                            Razones para Retrasos en Reclamos de Seguros
+                        </h2>
+                        
+                        <div class="bg-white bg-opacity-5 p-3 rounded-md mb-4">
+                            <p class="text-sm italic">Este gráfico muestra los resultados de un análisis de 100 casos de reclamos con retrasos en el procesamiento. Identifique las causas principales.</p>
+                        </div>
+                        
+                        <!-- Contenedor del gráfico de Pareto -->
+                        <div class="chart-container mb-4">
+                            <canvas id="claimsDelayChart"></canvas>
+                        </div>
+                        
+                        <div class="bg-white bg-opacity-10 p-4 rounded-lg">
+                            <h3 class="font-bold text-yellow-300 mb-3">
+                                <i class="fas fa-comments mr-2"></i>
+                                Preguntas para Análisis
+                            </h3>
+                            <ul class="space-y-2 pl-2">
+                                <li class="flex items-start">
+                                    <i class="fas fa-angle-right text-yellow-300 mt-1 mr-2"></i>
+                                    <span>¿Qué porcentaje del total de retrasos podría resolver si se enfoca en las 2 principales causas?</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-angle-right text-yellow-300 mt-1 mr-2"></i>
+                                    <span>¿Cuál sería su estrategia para abordar estas causas principales?</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-angle-right text-yellow-300 mt-1 mr-2"></i>
+                                    <span>¿Identifica alguna relación entre las diferentes causas?</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-angle-right text-yellow-300 mt-1 mr-2"></i>
+                                    <span>¿Qué otros datos adicionales le gustaría tener para un análisis más profundo?</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="mt-auto">
+                            <div class="bg-yellow-300 bg-opacity-10 p-3 rounded-md border border-yellow-300 border-opacity-30 mt-3">
+                                <div class="flex items-center">
+                                    <div class="rounded-full bg-yellow-300 text-blue-900 h-8 w-8 flex items-center justify-center mr-3">
+                                        <i class="fas fa-lightbulb"></i>
+                                    </div>
+                                    <div>
+                                        <span class="font-bold text-yellow-300">Consejo para facilitadores:</span>
+                                        <p class="text-sm mt-1">Anime a los grupos a considerar no solo la frecuencia, sino también el impacto o la gravedad de cada causa. En ocasiones, una causa menos frecuente puede tener un impacto mayor.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="h-12 bg-white bg-opacity-10 flex items-center px-8 justify-between mt-auto">
+            <div>
+                <div class="flex items-center">
+                    <i class="fas fa-info-circle text-yellow-300 mr-2"></i>
+                    <span>Herramienta clave para priorización de problemas</span>
+                </div>
+            </div>
+            <div>
+                <i class="fas fa-chart-pie mr-2 text-yellow-300"></i> Tecniseguros | Lean Six Sigma
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Datos para el gráfico de Pareto de retrasos en reclamos
+        const ctx = document.getElementById('claimsDelayChart').getContext('2d');
+        const data = {
+            labels: [
+                'Documentación incompleta', 
+                'Verificación manual requerida', 
+                'Error de entrada de datos', 
+                'Aprobaciones pendientes', 
+                'Sistema fuera de servicio', 
+                'Otros'
+            ],
+            datasets: [
+                {
+                    type: 'bar',
+                    label: 'Frecuencia',
+                    backgroundColor: [
+                        'rgba(255, 215, 0, 0.8)',
+                        'rgba(255, 215, 0, 0.6)',
+                        'rgba(30, 90, 140, 0.7)',
+                        'rgba(30, 90, 140, 0.6)',
+                        'rgba(30, 90, 140, 0.5)',
+                        'rgba(30, 90, 140, 0.4)'
+                    ],
+                    data: [38, 27, 14, 12, 6, 3],
+                    borderColor: 'white',
+                    borderWidth: 1
+                },
+                {
+                    type: 'line',
+                    label: '% Acumulado',
+                    data: [38, 65, 79, 91, 97, 100],
+                    borderColor: '#ffd700',
+                    borderWidth: 3,
+                    fill: false,
+                    pointBackgroundColor: '#ffd700',
+                    pointRadius: 5
+                }
+            ]
+        };
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.8)',
+                            font: {
+                                size: 12
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.8)',
+                            font: {
+                                size: 10
+                            }
+                        },
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Gráfico de Pareto - Causas de Retrasos en Reclamos',
+                        color: 'white',
+                        font: {
+                            size: 16
+                        }
+                    },
+                    legend: {
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+<!-- 1. Navigation Buttons HTML Block -->
+<div style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
+    <button id="prevSlideButton" onclick="goToPrevSlide()"> « Previous </button>
+    <span id="slideIndicator" style="margin: 0 15px;">Slide ? of ?</span>
+    <button id="nextSlideButton" onclick="goToNextSlide()"> Next » </button>
+</div>
+
+<!-- 2. Link to Global script.js -->
+<script src="../../script.js"></script>
+
+</body>
+</html>

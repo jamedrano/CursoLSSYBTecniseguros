@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herramienta de Análisis de Causa Raíz 1: Los 5 Por Qués</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0a3d62 0%, #1e5a8c 100%);
+            color: white;
+        }
+        .why-path {
+            position: relative;
+        }
+        .why-step {
+            position: relative;
+            border-left: 3px solid #ffd700;
+            padding-left: 20px;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+        .why-step:last-child {
+            border-color: #e74c3c;
+        }
+        .why-step:before {
+            content: "¿Por qué?";
+            position: absolute;
+            left: -80px;
+            top: 0;
+            background-color: #ffd700;
+            color: #0a3d62;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+        .why-step:last-child:before {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .why-step:after {
+            content: "";
+            position: absolute;
+            left: -6px;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #ffd700;
+        }
+        .why-step:last-child:after {
+            background-color: #e74c3c;
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .ejemplo-box {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-left: 4px solid #ffd700;
+            border-radius: 4px;
+            padding: 12px;
+        }
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .benefit-icon {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide flex flex-col">
+        <!-- Header con logo -->
+        <div class="h-16 bg-white bg-opacity-10 flex items-center px-8 justify-between">
+            <div class="text-xl font-bold">TECNISEGUROS</div>
+            <div>Lean Six Sigma Yellow Belt</div>
+        </div>
+        
+        <!-- Contenido principal -->
+        <div class="flex-grow flex flex-col px-16 py-8">
+            <!-- Título -->
+            <div class="mb-6">
+                <h1 class="text-4xl font-bold mb-2">Los 5 Por Qués: <span class="text-yellow-300">Profundizando</span></h1>
+            </div>
+            
+            <div class="flex flex-row">
+                <!-- Columna izquierda: Descripción y Beneficios -->
+                <div class="w-1/2 pr-6">
+                    <!-- Qué es -->
+                    <div class="card">
+                        <h2 class="text-2xl font-bold mb-3 text-yellow-300">
+                            <i class="fas fa-question-circle mr-2"></i>¿Qué es?
+                        </h2>
+                        <p class="text-lg mb-4">
+                            Técnica interrogativa iterativa que explora las relaciones causa-efecto subyacentes a un problema particular.
+                        </p>
+                    </div>
+                    
+                    <!-- Cómo funciona -->
+                    <div class="card">
+                        <h2 class="text-2xl font-bold mb-3 text-yellow-300">
+                            <i class="fas fa-cogs mr-2"></i>Cómo funciona
+                        </h2>
+                        <ol class="list-decimal list-inside space-y-2 pl-2">
+                            <li>Comenzar con el enunciado del problema (el "Efecto")</li>
+                            <li>Preguntar "¿Por qué?" está sucediendo y registrar la respuesta</li>
+                            <li>Si esa respuesta no revela la causa raíz, preguntar "¿Por qué?" nuevamente</li>
+                            <li>Repetir ~5 veces (o hasta identificar la causa raíz)</li>
+                        </ol>
+                    </div>
+                    
+                    <!-- Beneficios -->
+                    <div class="card">
+                        <h2 class="text-2xl font-bold mb-3 text-yellow-300">
+                            <i class="fas fa-star mr-2"></i>Beneficios
+                        </h2>
+                        <div class="space-y-3">
+                            <div class="benefit-item">
+                                <div class="benefit-icon">
+                                    <i class="fas fa-check text-green-400"></i>
+                                </div>
+                                <div>Simple de usar</div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="benefit-icon">
+                                    <i class="fas fa-brain text-green-400"></i>
+                                </div>
+                                <div>Fomenta pensamiento más profundo</div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="benefit-icon">
+                                    <i class="fas fa-search-plus text-green-400"></i>
+                                </div>
+                                <div>Ayuda a ir más allá de síntomas obvios</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Objetivo -->
+                    <div class="bg-yellow-900 bg-opacity-20 p-4 rounded-lg mt-4 text-center">
+                        <p class="text-lg font-bold">
+                            <i class="fas fa-bullseye text-yellow-300 mr-2"></i>
+                            "El objetivo es llegar a una causa que, si se aborda, evitaría que el problema se repitiera."
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Columna derecha: Ejemplo visual de los 5 por qués -->
+                <div class="w-1/2 pl-6">
+                    <div class="ejemplo-box mb-4">
+                        <h2 class="text-2xl font-bold mb-3 text-yellow-300">
+                            <i class="fas fa-briefcase mr-2"></i>Ejemplo Tecniseguros
+                        </h2>
+                    </div>
+                    
+                    <div class="why-path ml-20">
+                        <div class="why-step">
+                            <span class="font-bold">Problema:</span>
+                            <span>Cliente recibió documento de póliza incorrecto</span>
+                        </div>
+                        
+                        <div class="why-step">
+                            <span class="font-bold">Respuesta 1:</span>
+                            <span>El agente seleccionó la plantilla incorrecta</span>
+                        </div>
+                        
+                        <div class="why-step">
+                            <span class="font-bold">Respuesta 2:</span>
+                            <span>El sistema de nombres de plantillas es confuso</span>
+                        </div>
+                        
+                        <div class="why-step">
+                            <span class="font-bold">Respuesta 3:</span>
+                            <span>No se estableció una convención de nomenclatura estándar</span>
+                        </div>
+                        
+                        <div class="why-step">
+                            <span class="font-bold">Posible Causa Raíz:</span>
+                            <span>El sistema se implementó apresuradamente sin una prueba completa de usabilidad</span>
+                            <span class="bg-red-500 bg-opacity-30 px-3 py-1 mt-2 rounded-full inline-block text-sm">Área de enfoque para la mejora</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Recordatorio -->
+                    <div class="mt-5 bg-blue-900 bg-opacity-30 p-3 rounded-lg flex items-center">
+                        <i class="fas fa-lightbulb text-yellow-300 text-3xl mr-3"></i>
+                        <p>Evite culpar a las personas - busque fallas en el sistema o proceso</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="h-12 bg-white bg-opacity-10 flex items-center px-8 justify-between mt-auto">
+            <div>
+                <i class="fas fa-search mr-2"></i> Herramientas de Análisis de Causa Raíz
+            </div>
+            <div>
+                <i class="fas fa-lightbulb mr-2 text-yellow-300"></i> Tecniseguros | Lean Six Sigma
+            </div>
+        </div>
+    </div>
+<!-- 1. Navigation Buttons HTML Block -->
+<div style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
+    <button id="prevSlideButton" onclick="goToPrevSlide()"> « Previous </button>
+    <span id="slideIndicator" style="margin: 0 15px;">Slide ? of ?</span>
+    <button id="nextSlideButton" onclick="goToNextSlide()"> Next » </button>
+</div>
+
+<!-- 2. Link to Global script.js -->
+<script src="../../script.js"></script>
+
+</body>
+</html>

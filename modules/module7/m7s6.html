@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad: Diagrama de Causa y Efecto</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0a3d62 0%, #1e5a8c 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+        }
+        .instruction-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 16px;
+            border-left: 4px solid #ffd700;
+            transition: all 0.3s ease;
+        }
+        .instruction-card:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        .step-number {
+            background-color: #ffd700;
+            color: #0a3d62;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        .problem-option {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 3px solid #4CAF50;
+            transition: all 0.2s ease;
+        }
+        .problem-option:hover {
+            background-color: rgba(255, 255, 255, 0.12);
+            transform: translateX(5px);
+        }
+        .fishbone-template {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 2px dashed rgba(255, 215, 0, 0.5);
+            border-radius: 10px;
+            position: relative;
+            height: 300px;
+        }
+        .template-spine {
+            position: absolute;
+            height: 6px;
+            background-color: rgba(255, 215, 0, 0.3);
+            top: 50%;
+            left: 5%;
+            transform: translateY(-50%);
+            width: 80%;
+            border-radius: 3px;
+        }
+        .template-head {
+            position: absolute;
+            right: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 120px;
+            height: 80px;
+            border: 2px dashed #ffd700;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+        .template-bone {
+            position: absolute;
+            height: 80px;
+            width: 3px;
+            background-color: rgba(255, 215, 0, 0.2);
+        }
+        .template-bone.top1 {
+            left: 20%;
+            top: 50%;
+            transform: rotate(45deg);
+            transform-origin: bottom center;
+        }
+        .template-bone.top2 {
+            left: 40%;
+            top: 50%;
+            transform: rotate(45deg);
+            transform-origin: bottom center;
+        }
+        .template-bone.top3 {
+            left: 60%;
+            top: 50%;
+            transform: rotate(45deg);
+            transform-origin: bottom center;
+        }
+        .template-bone.bottom1 {
+            left: 20%;
+            bottom: 50%;
+            transform: rotate(-45deg);
+            transform-origin: top center;
+        }
+        .template-bone.bottom2 {
+            left: 40%;
+            bottom: 50%;
+            transform: rotate(-45deg);
+            transform-origin: top center;
+        }
+        .template-bone.bottom3 {
+            left: 60%;
+            bottom: 50%;
+            transform: rotate(-45deg);
+            transform-origin: top center;
+        }
+        .template-category {
+            position: absolute;
+            width: 110px;
+            height: 50px;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+        .time-indicator {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            background-color: rgba(255, 215, 0, 0.2);
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        .facilitator-note {
+            background-color: rgba(76, 175, 80, 0.1);
+            border-left: 3px solid #4CAF50;
+            padding: 10px 15px;
+            border-radius: 0 5px 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <!-- Header con logo -->
+        <div class="h-16 bg-white bg-opacity-10 flex items-center px-8 justify-between">
+            <div class="text-xl font-bold">TECNISEGUROS</div>
+            <div>Lean Six Sigma Yellow Belt</div>
+        </div>
+        
+        <!-- Contenido principal -->
+        <div class="flex-grow flex flex-col px-16 py-8">
+            <!-- Título -->
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold">Actividad: <span class="text-yellow-300">Construcción de un Diagrama de Causa y Efecto</span></h1>
+            </div>
+            
+            <div class="grid grid-cols-12 gap-6">
+                <!-- Columna izquierda: Instrucciones -->
+                <div class="col-span-5">
+                    <div class="instruction-card h-full">
+                        <h2 class="text-xl font-bold mb-4 text-yellow-300">
+                            <i class="fas fa-clipboard-list mr-2"></i>Instrucciones
+                        </h2>
+                        
+                        <div class="space-y-3">
+                            <div class="step-item">
+                                <div class="step-number">1</div>
+                                <div>Trabajen en sus grupos asignados</div>
+                            </div>
+                            
+                            <div class="step-item">
+                                <div class="step-number">2</div>
+                                <div>Utilicen el mismo problema que usaron en el ejercicio de los 5 Por Qués (o seleccionen uno nuevo si prefieren)</div>
+                            </div>
+                            
+                            <div class="problem-option">
+                                <i class="fas fa-exclamation-circle mr-2 text-green-400"></i>
+                                <span class="font-semibold">"Avisos de renovación de clientes frecuentemente enviados tarde"</span>
+                            </div>
+                            
+                            <div class="problem-option">
+                                <i class="fas fa-exclamation-circle mr-2 text-green-400"></i>
+                                <span class="font-semibold">"Alta tasa de errores en la entrada de datos en nuevas solicitudes"</span>
+                            </div>
+                            
+                            <div class="problem-option">
+                                <i class="fas fa-exclamation-circle mr-2 text-green-400"></i>
+                                <span class="font-semibold">"Reuniones internas a menudo comienzan tarde"</span>
+                            </div>
+                            
+                            <div class="step-item">
+                                <div class="step-number">3</div>
+                                <div>Dibujen un Diagrama de Causa y Efecto (Espina de Pescado)</div>
+                            </div>
+                            
+                            <div class="step-item">
+                                <div class="step-number">4</div>
+                                <div>Identifiquen al menos 2-3 causas potenciales para 3-4 de las categorías principales (Personas, Procesos, Sistemas, etc.)</div>
+                            </div>
+                            
+                            <div class="step-item">
+                                <div class="step-number">5</div>
+                                <div>Prepárense para compartir algunas causas clave identificadas</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <div class="time-indicator">
+                                <i class="fas fa-clock mr-2"></i>
+                                <span class="font-bold">Tiempo:</span> 20 minutos para discusión + 5-10 minutos para compartir
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Columna derecha: Plantilla de diagrama y rol del facilitador -->
+                <div class="col-span-7">
+                    <div class="mb-6">
+                        <h2 class="text-xl font-bold mb-3">
+                            <i class="fas fa-pencil-alt mr-2 text-yellow-300"></i>Plantilla para su Diagrama
+                        </h2>
+                        
+                        <div class="fishbone-template">
+                            <div class="template-spine"></div>
+                            <div class="template-head">PROBLEMA<br>(EFECTO)</div>
+                            
+                            <!-- Huesos superiores -->
+                            <div class="template-bone top1"></div>
+                            <div class="template-category" style="left: 10%; top: 15%;">
+                                PERSONAS
+                            </div>
+                            
+                            <div class="template-bone top2"></div>
+                            <div class="template-category" style="left: 30%; top: 15%;">
+                                PROCESOS
+                            </div>
+                            
+                            <div class="template-bone top3"></div>
+                            <div class="template-category" style="left: 50%; top: 15%;">
+                                SISTEMAS
+                            </div>
+                            
+                            <!-- Huesos inferiores -->
+                            <div class="template-bone bottom1"></div>
+                            <div class="template-category" style="left: 10%; bottom: 15%;">
+                                MATERIALES
+                            </div>
+                            
+                            <div class="template-bone bottom2"></div>
+                            <div class="template-category" style="left: 30%; bottom: 15%;">
+                                ENTORNO
+                            </div>
+                            
+                            <div class="template-bone bottom3"></div>
+                            <div class="template-category" style="left: 50%; bottom: 15%;">
+                                MEDICIÓN
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Rol del facilitador -->
+                    <div>
+                        <h3 class="text-lg font-bold mb-2 flex items-center">
+                            <i class="fas fa-user-tie mr-2 text-yellow-300"></i>
+                            Rol del Facilitador
+                        </h3>
+                        
+                        <div class="facilitator-note">
+                            <p><i class="fas fa-lightbulb text-green-400 mr-2"></i> <span class="font-semibold">Sugerencias para el facilitador:</span></p>
+                            <ul class="list-disc pl-6 mt-2 space-y-1">
+                                <li>Ayude a los grupos a categorizar correctamente sus ideas</li>
+                                <li>Fomente un pensamiento amplio dentro de cada categoría</li>
+                                <li>Recuerde a los participantes que busquen causas sistémicas, no culpables</li>
+                                <li>Promueva la identificación de causas específicas y accionables</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="mt-4 bg-white bg-opacity-10 p-4 rounded-lg">
+                            <p class="italic">
+                                <i class="fas fa-quote-left text-yellow-300 mr-2"></i>
+                                "Un buen Diagrama de Causa y Efecto revela múltiples causas potenciales y nos ayuda a ver el problema desde diferentes ángulos."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="h-12 bg-white bg-opacity-10 flex items-center px-8 justify-between mt-auto">
+            <div>
+                <div class="flex items-center">
+                    <i class="fas fa-fish text-yellow-300 mr-2"></i>
+                    <span>Consideren usar Post-its o notas adhesivas para facilitar la lluvia de ideas</span>
+                </div>
+            </div>
+            <div>
+                <i class="fas fa-lightbulb mr-2 text-yellow-300"></i> Tecniseguros | Lean Six Sigma
+            </div>
+        </div>
+    </div>
+<!-- 1. Navigation Buttons HTML Block -->
+<div style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
+    <button id="prevSlideButton" onclick="goToPrevSlide()"> « Previous </button>
+    <span id="slideIndicator" style="margin: 0 15px;">Slide ? of ?</span>
+    <button id="nextSlideButton" onclick="goToNextSlide()"> Next » </button>
+</div>
+
+<!-- 2. Link to Global script.js -->
+<script src="../../script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo 7: La Fase de Análisis</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden; 
+            background: linear-gradient(135deg, #0a3d62 0%, #1e5a8c 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+        }
+        .dmaic-cycle {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem; 
+            margin-bottom: 1rem; 
+            padding-bottom: 30px; 
+        }
+        .dmaic-step {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 15px;
+            font-weight: bold;
+            font-size: 24px;
+            border: 3px solid white;
+            position: relative; 
+        }
+        .dmaic-step.active {
+            background-color: #e74c3c;
+            transform: scale(1.2);
+            box-shadow: 0 0 20px rgba(231, 76, 60, 0.7);
+        }
+        .dmaic-label {
+            position: absolute;
+            bottom: -30px; 
+            font-size: 14px;
+            font-weight: 500;
+            width: 100%; 
+            text-align: center;
+            color: white; 
+        }
+        .tree-container {
+            position: absolute;
+            bottom: 60px; 
+            right: 50px;
+            width: 300px; 
+            height: 350px; 
+        }
+        .tree-crown {
+            position: absolute;
+            top: 0; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 200px; 
+            background-color: #27ae60;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+        }
+        .symptoms {
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+            text-align: center;
+            padding: 10px; 
+        }
+        .tree-trunk {
+            position: absolute;
+            top: 180px; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px; 
+            height: 70px; 
+            background-color: #795548;
+            z-index: 1; 
+        }
+        .tree-roots { 
+            position: absolute;
+            top: 248px; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: 220px; 
+            height: 102px; 
+        }
+        .root {
+            position: absolute;
+            top: 0; 
+            width: 15px; 
+            background-color: #5d4037;
+            border-radius: 0 0 8px 8px; 
+            transform-origin: top center; 
+        }
+        .root-3 { 
+            height: 100px; 
+            left: calc(50% - 7.5px); 
+        }
+        .root-2 { 
+            height: 85px; 
+            left: calc(50% - 7.5px - 5px);
+            transform: rotate(-25deg); 
+        }
+        .root-4 { 
+            height: 85px; 
+            left: calc(50% - 7.5px + 5px); 
+            transform: rotate(25deg);
+        }
+        .root-1 { 
+            height: 65px; 
+            left: calc(50% - 7.5px - 15px); 
+            transform: rotate(-50deg);
+        }
+        .root-5 { 
+            height: 65px; 
+            left: calc(50% - 7.5px + 15px);
+            transform: rotate(50deg);
+        }  
+
+        .causes {
+            position: absolute; 
+            bottom: -30px; 
+            left: 0; 
+            right: 0; 
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+    </style>
+</head>
+<body class="flex justify-center items-center min-h-screen">
+    <div class="slide">
+        <!-- Header con logo -->
+        <div class="h-16 bg-white bg-opacity-10 flex items-center px-8 justify-between flex-shrink-0">
+            <div class="text-xl font-bold">TECNISEGUROS</div>
+            <div>Lean Six Sigma Yellow Belt</div>
+        </div>
+        
+        <!-- Contenido principal -->
+        <div class="flex-grow flex flex-col px-16 py-10 overflow-y-auto">
+            <!-- Títulos -->
+            <div class="mb-8">
+                <h1 class="text-5xl font-bold mb-4">Módulo 7: La Fase de Análisis</h1>
+                <h2 class="text-3xl text-yellow-300">Encontrando las Causas Raíz</h2>
+            </div>
+            
+            <!-- Recapitulación -->
+            <div class="bg-white bg-opacity-10 p-4 rounded-lg mb-6">
+                <p class="font-semibold text-lg">
+                    <i class="fas fa-history mr-2"></i> Recapitulación Módulo 6:
+                </p>
+                <p class="text-gray-100">
+                    "En la fase de Medición, nos enfocamos en la Planificación de Recolección de Datos, conceptos MSA para la confiabilidad de datos, muestreo y Estadística Descriptiva básica para entender el rendimiento actual."
+                </p>
+            </div>
+            
+            <!-- Enfoque de hoy -->
+            <div class="mb-6">
+                <p class="font-semibold text-2xl mb-4">
+                    <i class="fas fa-crosshairs mr-2"></i> Enfoque de hoy: La fase de ANÁLISIS
+                </p>
+                <ul class="list-none pl-10 space-y-2">
+                    <li><i class="fas fa-check-circle mr-2 text-yellow-300"></i> Propósito de la Fase de Análisis: Más allá de los Síntomas</li>
+                    <li><i class="fas fa-check-circle mr-2 text-yellow-300"></i> Herramienta de Análisis de Causa Raíz 1: Los 5 Por Qués</li>
+                    <li><i class="fas fa-check-circle mr-2 text-yellow-300"></i> Herramienta de Análisis de Causa Raíz 2: Diagrama de Causa y Efecto (Fishbone)</li>
+                    <li><i class="fas fa-check-circle mr-2 text-yellow-300"></i> Herramienta de Análisis de Causa Raíz 3: Análisis de Pareto (Regla 80/20)</li>
+                </ul>
+            </div>
+            
+            <!-- Objetivo -->
+            <div class="bg-blue-900 bg-opacity-50 p-4 rounded-lg">
+                <p class="font-semibold text-lg">
+                    <i class="fas fa-bullseye mr-2 text-yellow-300"></i> Objetivo:
+                </p>
+                <p>
+                    Aprender y practicar técnicas para identificar las causas raíz fundamentales de un problema, en lugar de solo abordar sus síntomas.
+                </p>
+            </div>
+            
+            <!-- Ciclo DMAIC -->
+            <div class="dmaic-cycle">
+                <div class="dmaic-step">
+                    D
+                    <span class="dmaic-label">DEFINIR</span>
+                </div>
+                <div class="dmaic-step">
+                    M
+                    <span class="dmaic-label">MEDIR</span>
+                </div>
+                <div class="dmaic-step active">
+                    A
+                    <span class="dmaic-label">ANALIZAR</span>
+                </div>
+                <div class="dmaic-step">
+                    I
+                    <span class="dmaic-label">MEJORAR</span>
+                </div>
+                <div class="dmaic-step">
+                    C
+                    <span class="dmaic-label">CONTROLAR</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Visualización del árbol con síntomas y causas -->
+        <div class="tree-container">
+            <div class="tree-crown">
+                <div class="symptoms">SÍNTOMAS</div>
+            </div>
+            <div class="tree-trunk"></div>
+            <div class="tree-roots"> 
+                <div class="root root-1"></div>
+                <div class="root root-2"></div>
+                <div class="root root-3"></div>
+                <div class="root root-4"></div>
+                <div class="root root-5"></div>
+            </div>
+            <div class="causes">CAUSAS RAÍZ</div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="h-12 bg-white bg-opacity-10 flex items-center px-8 justify-between mt-auto flex-shrink-0">
+            <div>
+                <i class="fas fa-search-plus mr-2"></i> Investigando más allá de lo obvio
+            </div>
+            <div>
+                <i class="fas fa-lightbulb mr-2 text-yellow-300"></i> Tecniseguros | Lean Six Sigma
+            </div>
+        </div>
+    </div>
+<!-- 1. Navigation Buttons HTML Block -->
+<div style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
+    <button id="prevSlideButton" onclick="goToPrevSlide()"> « Previous </button>
+    <span id="slideIndicator" style="margin: 0 15px;">Slide ? of ?</span>
+    <button id="nextSlideButton" onclick="goToNextSlide()"> Next » </button>
+</div>
+
+<!-- 2. Link to Global script.js -->
+<script src="../../script.js"></script>
+
+</body>
+</html>

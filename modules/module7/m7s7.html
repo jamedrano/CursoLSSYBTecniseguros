@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Pareto (Principio 80/20)</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+        }
+        .slide {
+            width: 1280px;
+            min-height: 720px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0a3d62 0%, #1e5a8c 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        .highlight-card {
+            border-left: 4px solid #ffd700;
+        }
+        .highlight-text {
+            color: #ffd700;
+        }
+        .chart-container {
+            position: relative;
+            height: 320px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 10px;
+        }
+        .key-point {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        .key-icon {
+            background-color: #ffd700;
+            color: #0a3d62;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        .example-box {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 12px;
+            border-left: 3px solid #4CAF50;
+            transition: all 0.2s ease;
+        }
+        .example-box:hover {
+            background-color: rgba(255, 255, 255, 0.12);
+        }
+        .pareto-illustration {
+            position: relative;
+            height: 80px;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        .pareto-bar {
+            position: absolute;
+            bottom: 0;
+            border-radius: 4px 4px 0 0;
+            transition: all 0.3s ease;
+        }
+        .pareto-bar:hover {
+            transform: translateY(-5px);
+        }
+        .pareto-line {
+            position: absolute;
+            border-top: 2px dashed #ffd700;
+            width: 90%;
+            top: 20%;
+            left: 5%;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <!-- Header con logo -->
+        <div class="h-16 bg-white bg-opacity-10 flex items-center px-8 justify-between">
+            <div class="text-xl font-bold">TECNISEGUROS</div>
+            <div>Lean Six Sigma Yellow Belt</div>
+        </div>
+        
+        <!-- Contenido principal -->
+        <div class="flex-grow flex flex-col px-16 py-8">
+            <!-- Título -->
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold">Herramienta de Análisis de Causa Raíz 3: <span class="text-yellow-300">Análisis de Pareto (Principio 80/20)</span></h1>
+            </div>
+            
+            <div class="grid grid-cols-12 gap-6">
+                <!-- Columna izquierda: Explicación del principio -->
+                <div class="col-span-5">
+                    <div class="card highlight-card h-full flex flex-col">
+                        <h2 class="text-xl font-bold mb-4">
+                            <i class="fas fa-balance-scale mr-2 text-yellow-300"></i>
+                            Principio de Pareto: Enfocándose en los "Pocos Vitales"
+                        </h2>
+                        
+                        <div class="mb-4">
+                            <div class="key-point">
+                                <div class="key-icon"><i class="fas fa-percentage"></i></div>
+                                <div>
+                                    <span class="font-bold text-yellow-300">Regla 80/20 (Vilfredo Pareto):</span>
+                                    <div>Aproximadamente el 80% de los efectos (problemas) provienen del 20% de las causas (los "pocos vitales")</div>
+                                </div>
+                            </div>
+                            
+                            <div class="key-point">
+                                <div class="key-icon"><i class="fas fa-bullseye"></i></div>
+                                <div>
+                                    <span class="font-bold text-yellow-300">Propósito:</span>
+                                    <div>Ayuda a priorizar qué causas potenciales (o tipos de defectos, quejas, etc.) abordar para lograr el mayor impacto</div>
+                                </div>
+                            </div>
+                            
+                            <div class="key-point">
+                                <div class="key-icon"><i class="fas fa-chart-bar"></i></div>
+                                <div>
+                                    <span class="font-bold text-yellow-300">Gráfico de Pareto:</span>
+                                    <div>Gráfico de barras que clasifica las causas/categorías de mayor a menor importancia, con una línea de porcentaje acumulado. Identifica visualmente los "pocos vitales"</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h3 class="text-lg font-bold mb-2">Cómo se utiliza:</h3>
+                            <ol class="list-decimal pl-5 space-y-1">
+                                <li>Recolectar datos sobre la frecuencia o impacto de diferentes causas/tipos de problemas</li>
+                                <li>Crear un gráfico de Pareto</li>
+                                <li>Concentrar los esfuerzos de mejora en las barras más altas (los pocos vitales)</li>
+                            </ol>
+                        </div>
+                        
+                        <div class="mt-auto">
+                            <div class="example-box">
+                                <h3 class="font-bold text-green-400 mb-2">
+                                    <i class="fas fa-lightbulb mr-2"></i>
+                                    Ejemplo práctico (Tecniseguros):
+                                </h3>
+                                <p>"Al analizar las quejas de los clientes, un gráfico de Pareto podría mostrar que el 75% de todas las quejas están relacionadas con solo dos problemas: 'Errores de facturación' y 'Procesamiento lento de endosos de pólizas'. Esto nos indica dónde enfocar primero nuestros esfuerzos de mejora."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Columna derecha: Gráfico de Pareto y visualización -->
+                <div class="col-span-7">
+                    <div class="card h-full flex flex-col">
+                        <h2 class="text-xl font-bold mb-4">
+                            <i class="fas fa-chart-line mr-2 text-yellow-300"></i>
+                            Visualización del Gráfico de Pareto
+                        </h2>
+                        
+                        <div class="pareto-illustration mb-3">
+                            <div class="pareto-bar bg-yellow-500" style="height: 80px; width: 40px; left: 50px;"></div>
+                            <div class="pareto-bar bg-yellow-400" style="height: 60px; width: 40px; left: 110px;"></div>
+                            <div class="pareto-bar bg-blue-400" style="height: 40px; width: 40px; left: 170px;"></div>
+                            <div class="pareto-bar bg-blue-400" style="height: 25px; width: 40px; left: 230px;"></div>
+                            <div class="pareto-bar bg-blue-400" style="height: 15px; width: 40px; left: 290px;"></div>
+                            <div class="pareto-bar bg-blue-300" style="height: 10px; width: 40px; left: 350px;"></div>
+                            <div class="pareto-line"></div>
+                            <div style="position: absolute; right: 10px; top: 15%; font-size: 14px;">80% de los problemas</div>
+                            <div style="position: absolute; left: 200px; bottom: -20px; font-size: 14px;">20% de las causas</div>
+                        </div>
+                        
+                        <!-- Gráfico de Pareto real -->
+                        <div class="chart-container">
+                            <canvas id="paretoChart"></canvas>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <div class="bg-white bg-opacity-10 p-4 rounded-lg">
+                                <h3 class="font-bold text-yellow-300 mb-2">
+                                    <i class="fas fa-search-plus mr-2"></i>
+                                    Identifique los "Pocos Vitales"
+                                </h3>
+                                <ul class="list-disc pl-6 space-y-1">
+                                    <li>Las 1-2 primeras barras (más altas) suelen representar aproximadamente el 80% del problema total</li>
+                                    <li>Centrarse en resolver estas causas principales generará el mayor impacto</li>
+                                    <li>Use la curva de porcentaje acumulado para identificar dónde se alcanza el 80%</li>
+                                    <li>Documentar estas prioridades claramente para la fase de mejora</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-auto flex items-center justify-between pt-3">
+                            <div class="text-sm italic">
+                                <i class="fas fa-quote-left text-yellow-300 mr-2"></i>
+                                "No todas las causas tienen igual importancia; pocos problemas producen la mayoría de los defectos"
+                            </div>
+                            <div class="bg-yellow-300 text-blue-900 px-3 py-1 rounded-full font-bold text-sm">
+                                <i class="fas fa-star mr-1"></i> Enfoque en lo que más importa
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="h-12 bg-white bg-opacity-10 flex items-center px-8 justify-between mt-auto">
+            <div>
+                <div class="flex items-center">
+                    <i class="fas fa-info-circle text-yellow-300 mr-2"></i>
+                    <span>Este gráfico nos permite priorizar esfuerzos de mejora</span>
+                </div>
+            </div>
+            <div>
+                <i class="fas fa-chart-pie mr-2 text-yellow-300"></i> Tecniseguros | Lean Six Sigma
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Datos para el gráfico de Pareto
+        const ctx = document.getElementById('paretoChart').getContext('2d');
+        const data = {
+            labels: ['Errores de facturación', 'Procesamiento lento', 'Documentación incompleta', 'Comunicación deficiente', 'Solicitudes duplicadas', 'Otros'],
+            datasets: [
+                {
+                    type: 'bar',
+                    label: 'Frecuencia',
+                    backgroundColor: [
+                        'rgba(255, 215, 0, 0.8)',
+                        'rgba(255, 215, 0, 0.6)',
+                        'rgba(30, 90, 140, 0.6)',
+                        'rgba(30, 90, 140, 0.5)',
+                        'rgba(30, 90, 140, 0.4)',
+                        'rgba(30, 90, 140, 0.3)'
+                    ],
+                    data: [42, 33, 15, 8, 5, 3],
+                    borderColor: 'white',
+                    borderWidth: 1
+                },
+                {
+                    type: 'line',
+                    label: '% Acumulado',
+                    data: [40, 71, 85, 92, 97, 100],
+                    borderColor: '#ffd700',
+                    borderWidth: 3,
+                    fill: false,
+                    pointBackgroundColor: '#ffd700',
+                    pointRadius: 5
+                }
+            ]
+        };
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.8)',
+                            font: {
+                                size: 12
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: 'rgba(255, 255, 255, 0.8)',
+                            font: {
+                                size: 10
+                            }
+                        },
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Análisis de Pareto - Quejas de Clientes Tecniseguros',
+                        color: 'white',
+                        font: {
+                            size: 16
+                        }
+                    },
+                    legend: {
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+<!-- 1. Navigation Buttons HTML Block -->
+<div style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
+    <button id="prevSlideButton" onclick="goToPrevSlide()"> « Previous </button>
+    <span id="slideIndicator" style="margin: 0 15px;">Slide ? of ?</span>
+    <button id="nextSlideButton" onclick="goToNextSlide()"> Next » </button>
+</div>
+
+<!-- 2. Link to Global script.js -->
+<script src="../../script.js"></script>
+
+</body>
+</html>
